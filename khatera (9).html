@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Khatera Jan ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --magic-gold: #ffd700;
+    --heart-pink: #ff477e;
+    --deep-purple: #432160;
+    --blush: #ff9999;
+    --boy-hoodie: #3498db;
+    --skin: #ffe0bd;
+  }
+
+  * { margin:0; padding:0; box-sizing: border-box; }
+  body, html {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #050510;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    user-select: none;
+  }
+
+  /* --- STARS --- */
+  #stars { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .star { position: absolute; background: white; border-radius: 50%; opacity: 0.6; animation: twinkle 3s infinite; }
+  @keyframes twinkle { 0%,100% {opacity:0.3;} 50% {opacity:1;} }
+
+  /* --- TIMER --- */
+  #timer-badge {
+    position: fixed; top: 15px; right: 15px; z-index: 8000;
+    padding: 10px 14px; border-radius: 15px; background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2);
+    text-align: center; color: white; display: none;
+  }
+
+  /* --- AVATAR (SHY BOY) --- */
+  #avatar-container {
+    position: fixed; width: 120px; height: 180px;
+    bottom: 50px; left: -150px; z-index: 10000;
+    pointer-events: none;
+    transition: left 0.5s linear, bottom 0.5s linear;
+  }
+  .boy-head {
+    width: 60px; height: 60px; background: var(--skin); border-radius: 50%;
+    position: relative; margin: 0 auto; border: 2px solid #555;
+  }
+  .boy-hair {
+    position: absolute; top: -8px; left: -6px; width: 74px; height: 45px;
+    background: #2a2a2a; border-top-left-radius: 40px; border-top-right-radius: 40px;
+    clip-path: polygon(0% 100%, 10% 20%, 25% 90%, 45% 5%, 65% 85%, 85% 15%, 100% 100%);
+  }
+  .boy-eyes {
+    position: absolute; top: 25px; left: 12px; width: 36px;
+    display: flex; justify-content: space-between;
+  }
+  .boy-eye { width: 8px; height: 10px; background: #333; border-radius: 50%; }
+  .boy-blush { position: absolute; top: 38px; width: 14px; height: 7px; background: var(--blush); border-radius: 50%; opacity: 0; transition: 0.5s;}
+  .boy-mouth { position: absolute; top: 50px; left: 25px; width: 10px; height: 4px; border-bottom: 2px solid #a67c52; border-radius: 50%; }
+  .boy-body {
+    width: 52px; height: 70px; background: var(--boy-hoodie);
+    border-radius: 15px 15px 5px 5px; margin: -5px auto;
+    position: relative; border: 2px solid #2980b9;
+  }
+  .boy-arm {
+    position: absolute; width: 15px; height: 45px; background: var(--boy-hoodie);
+    border-radius: 10px; border: 2px solid #2980b9;
+    transform-origin: top center;
+  }
+  .boy-arm.l { left: -12px; }
+  .boy-arm.r { right: -12px; }
+  .boy-leg {
+    position: absolute; width: 18px; height: 45px; background: #333;
+    border-radius: 5px; bottom: -40px; transform-origin: top center;
+  }
+  .boy-leg.l { left: 8px; }
+  .boy-leg.r { right: 8px; }
+
+  #boy-speech {
+    position: absolute; top: -65px; left: 50%; transform: translateX(-50%) scale(0);
+    background: white; color: #333; padding: 8px 16px; border-radius: 20px;
+    font-weight: 700; white-space: nowrap; transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-size: 14px;
+  }
+  #boy-speech.show { transform: translateX(-50%) scale(1); }
+
+  /* --- STAGES --- */
+  .stage { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column; opacity: 1; transition: opacity 0.5s;}
+  
+  #intro-stage { display: flex; background: #08081a; }
+  #khatera-box {
+    padding: 40px 80px; background: white; color: var(--deep-purple);
+    font-family: 'Great Vibes', cursive; font-size: 4.5rem; border-radius: 25px;
+    box-shadow: 0 0 40px var(--magic-gold), 0 0 10px white;
+    cursor: pointer; opacity: 0; transform: scale(0.6);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 500;
+  }
+  #khatera-box.ready { opacity:1; transform:scale(1); }
+
+  #game-stage { background: #fdfaf7; color: var(--deep-purple); }
+  #target-heart { font-size: 6rem; position: absolute; cursor: pointer; z-index: 500; }
+
+  #reveal-stage { background: #fffcf9; }
+  .love-box {
+    padding: 22px 45px; margin: 15px; border: 3px solid var(--heart-pink);
+    color: var(--heart-pink); border-radius: 20px; font-weight: 700;
+    font-size: 2rem; opacity: 0; transform: translateY(30px); display: inline-block;
+  }
+
+  #river-stage { background: #fff1f0; }
+  .center-msg { font-family: 'Great Vibes'; font-size: 4.8rem; color: var(--deep-purple); z-index: 100; pointer-events: none;}
+  .river-line { position: absolute; bottom: -50px; color: var(--heart-pink); font-size: 1.2rem; pointer-events: none; font-weight:600;}
+
+  #final-stage { background: white; }
+  .final-q { font-family: 'Great Vibes', cursive; font-size: 5rem; color: var(--deep-purple); opacity: 0; margin-bottom: 20px;}
+
+  /* --- EFFECTS --- */
+  @keyframes walk { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
+  @keyframes wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-120deg); } }
+  @keyframes blastEffect { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(30); opacity: 0; } }
+  #blast-ring { position: fixed; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, #fff, #ffe066, #ff4d6d, transparent); z-index: 9999; pointer-events: none; display: none; }
+  
+  .grenade { position: absolute; width: 16px; height: 22px; background: #3d3b26; border-radius: 50% 50% 30% 30%; border: 2px solid #222; display: none; z-index: 11000; }
+
+  /* Blinking Eyes */
+  @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+  .boy-eye { animation: blink 4s infinite; }
+</style>
+</head>
+<body onclick="spawnFeedback(event)">
+
+<div id="stars"></div>
+<div id="timer-badge">
+  <div style="font-size: 9px; opacity:0.8; color: #ffb1d5;">SINCE</div>
+  <div id="timerVal" style="font-weight: 700; color:var(--magic-gold);">00d 00h 00m</div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-thejazzpiano.mp3" type="audio/mpeg">
+</audio>
+
+<div id="blast-ring"></div>
+<div id="grenade" class="grenade"></div>
+
+<!-- CHARACTER -->
+<div id="avatar-container">
+  <div id="boy-speech">Hi!</div>
+  <div class="boy-head">
+    <div class="boy-hair"></div>
+    <div class="boy-eyes"><div class="boy-eye"></div><div class="boy-eye"></div></div>
+    <div class="boy-blush l"></div><div class="boy-blush r"></div>
+    <div class="boy-mouth"></div>
+  </div>
+  <div class="boy-body">
+    <div class="boy-arm l" id="arm-l"></div>
+    <div class="boy-arm r" id="arm-r"></div>
+    <div class="boy-leg l" id="leg-l"></div>
+    <div class="boy-leg r" id="leg-r"></div>
+  </div>
+</div>
+
+<!-- STAGE 0: INTRO -->
+<div id="intro-stage" class="stage" style="display: flex;">
+  <div id="khatera-box" onclick="startEverything()">Khatera Jan</div>
+</div>
+
+<!-- STAGE 1: GAME -->
+<div id="game-stage" class="stage">
+  <h2 style="margin-top: -350px; color: var(--deep-purple);">Catch the Heart if you can!</h2>
+  <div id="target-heart" onclick="catchHeart()">❤️</div>
+</div>
+
+<!-- STAGE 2: 3 THINGS -->
+<div id="reveal-stage" class="stage">
+  <h1 style="color:var(--deep-purple); margin-bottom: 60px;">I love 3 things about you...</h1>
+  <div class="love-box" id="box1">Your Face</div>
+  <div class="love-box" id="box2">Your Hair</div>
+  <div class="love-box" id="box3">Your Smile</div>
+</div>
+
+<!-- STAGE 3: RIVER -->
+<div id="river-stage" class="stage">
+  <div class="center-msg" id="river-msg">My love has no limits</div>
+</div>
+
+<!-- STAGE 4: FINAL -->
+<div id="final-stage" class="stage">
+  <div class="final-q" id="q1">Khatera Jan...</div>
+  <div class="final-q" id="q2" style="font-size: 3.5rem;">Can we be together like before?</div>
+  <div id="final-note" style="opacity:0; color:#b5838d; margin-top:30px; font-size:1.3rem;">I miss us so much. ❤️</div>
+</div>
+
+<script>
+  const boy = document.getElementById('avatar-container');
+  const speech = document.getElementById('boy-speech');
+  const stars = document.getElementById('stars');
+  const music = document.getElementById('bgMusic');
+  const box = document.getElementById('khatera-box');
+
+  // Helper Functions
+  function say(txt, time) {
+    speech.innerText = txt;
+    speech.classList.add('show');
+    if(time) setTimeout(() => speech.classList.remove('show'), time);
+  }
+  function setWalking(on) {
+    ['arm-l','arm-r','leg-l','leg-r'].forEach(id => {
+      document.getElementById(id).style.animation = on ? 'walk 0.6s infinite' : 'none';
+    });
+  }
+  function blush(on) {
+    document.querySelectorAll('.boy-blush').forEach(b => b.style.opacity = on ? 0.8 : 0);
+  }
+
+  // Init Stars
+  for(let i=0; i<120; i++){
+    let s = document.createElement('div');
+    s.className = 'star';
+    let sz = Math.random()*3+'px';
+    s.style.width = sz; s.style.height = sz;
+    s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
+    stars.appendChild(s);
+  }
+
+  // Sequence START
+  window.onload = () => {
+    // 1. Boy walks in
+    setWalking(true);
+    boy.style.left = "45%";
+    setTimeout(() => {
+      setWalking(false);
+      say("Hi!", 1500);
+      document.getElementById('arm-r').style.animation = "wave 0.5s infinite";
+      setTimeout(() => {
+        document.getElementById('arm-r').style.animation = "none";
+        say("Running!", 1000);
+        setWalking(true);
+        boy.style.transition = "left 0.8s ease-in";
+        boy.style.left = "110%";
+        setTimeout(() => {
+          // 2. Boy comes back and pushes box
+          boy.style.transition = "left 1s ease-out";
+          boy.style.left = "25%";
+          setTimeout(() => {
+            setWalking(false);
+            box.classList.add('ready');
+            document.getElementById('arm-r').style.transform = "rotate(-90deg)"; // Point
+            say("Click on it! Click!", 5000);
+          }, 1000);
+        }, 1200);
+      }, 2000);
+    }, 2000);
+  };
+
+  function startEverything() {
+    music.play().catch(e => console.log("User interaction needed for audio"));
+    document.getElementById('timer-badge').style.display = 'block';
+    say("Let's go! ✨", 1000);
+    setWalking(true);
+    boy.style.left = "-150px";
+    
+    setTimeout(() => {
+      changeStage('intro-stage', 'game-stage', initGame);
+    }, 1000);
+  }
+
+  function changeStage(oldId, newId, callback) {
+    document.getElementById(oldId).style.opacity = 0;
+    setTimeout(() => {
+      document.getElementById(oldId).style.display = 'none';
+      document.getElementById(newId).style.display = 'flex';
+      document.getElementById(newId).style.opacity = 1;
+      if(callback) callback();
+    }, 500);
+  }
+
+  // Game Logic
+  const heart = document.getElementById('target-heart');
+  function initGame() {
+    boy.style.left = "85%"; boy.style.bottom = "30px";
+    setWalking(false);
+    say("Catch the heart!", 3000);
+    heart.style.left = "50%"; heart.style.top = "50%"; heart.style.transform = "translate(-50%,-50%)";
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    if(document.getElementById('game-stage').style.display !== 'flex') return;
+    const r = heart.getBoundingClientRect();
+    const cx = r.left + r.width/2;
+    const cy = r.top + r.height/2;
+    const d = Math.hypot(e.clientX - cx, e.clientY - cy);
+    if(d < 180) {
+      const ang = Math.atan2(cy - e.clientY, cx - e.clientX);
+      const nx = Math.max(80, Math.min(window.innerWidth-80, cx + Math.cos(ang)*180));
+      const ny = Math.max(80, Math.min(window.innerHeight-80, cy + Math.sin(ang)*180));
+      heart.style.left = nx+'px'; heart.style.top = ny+'px';
+    }
+  });
+
+  function catchHeart() {
+    say("Yay! You got it! ❤️", 2000);
+    setTimeout(() => {
+      changeStage('game-stage', 'reveal-stage', initReveal);
+    }, 2000);
+  }
+
+  // Reveal Logic + Grenade Blast
+  function initReveal() {
+    boy.style.left = "50%"; boy.style.bottom = "40px"; boy.style.transform="translateX(-50%)";
+    [1,2,3].forEach(i => {
+      setTimeout(() => {
+        document.getElementById('box'+i).style.opacity = 1;
+        document.getElementById('box'+i).style.transform = "translateY(0)";
+        if(i===3) setTimeout(triggerGrenadeSeq, 2000);
+      }, i*1200);
+    });
+  }
+
+  function triggerGrenadeSeq() {
+    say("Nahhhh!", 1500);
+    const g = document.getElementById('grenade');
+    const startX = boy.offsetLeft + 60;
+    const startY = boy.offsetTop + 40;
+    g.style.left = startX + 'px'; g.style.top = startY + 'px';
+    g.style.display = 'block';
+
+    g.animate([
+      { top: startY+'px', left: startX+'px' },
+      { top: (window.innerHeight/2 - 100)+'px', left: (window.innerWidth/2)+'px' },
+      { top: (window.innerHeight/2)+'px', left: (window.innerWidth/2)+'px' }
+    ], { duration: 800, easing: 'ease-out' }).onfinish = () => {
+      g.style.display = 'none';
+      animeExplosion();
+    };
+  }
+
+  function animeExplosion() {
+    const blast = document.getElementById('blast-ring');
+    blast.style.display = 'block';
+    blast.style.left = '50%'; blast.style.top = '50%';
+    blast.style.transform = 'translate(-50%, -50%) scale(0)';
+    blast.animate([
+      { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(30)', opacity: 0 }
+    ], { duration: 1000 }).onfinish = () => {
+      blast.style.display = 'none';
+      changeStage('reveal-stage', 'river-stage', initRiver);
+    };
+  }
+
+  // River Logic
+  function initRiver() {
+    const msg = document.getElementById('river-msg');
+    boy.style.left = "50%"; boy.style.bottom = "50px";
+    
+    setTimeout(() => {
+      say("I'm too shy... 🏃", 2000);
+      blush(true);
+      setWalking(true);
+      boy.style.left = "120%"; // Runs away
+      msg.style.opacity = 0; // Message fades out while he runs
+
+      const words = ["Your soft skin", "Your perfume", "The way you smile", "Your intelligence", "Your kind heart", "How you say my name", "Your beautiful soul", "Your presence", "Your eyes", "Your wisdom"];
+      const riverInt = setInterval(() => {
+        let r = document.createElement('div');
+        r.className = 'river-line';
+        r.innerText = words[Math.floor(Math.random()*words.length)] + " ❤️";
+        r.style.left = Math.random()*90 + 'vw';
+        let d = Math.random()*3 + 3;
+        r.style.animation = `floatUp ${d}s linear forwards`;
+        document.getElementById('river-stage').appendChild(r);
+        setTimeout(()=>r.remove(), d*1000);
+      }, 150);
+
+      setTimeout(() => {
+        clearInterval(riverInt);
+        changeStage('river-stage', 'final-stage', initFinal);
+      }, 11000);
+    }, 4000);
+  }
+
+  // Final Logic
+  function initFinal() {
+    boy.style.left = "-150px"; boy.style.bottom = "50px";
+    blush(true);
+    setTimeout(() => {
+      document.getElementById('q1').style.opacity = 1;
+      setTimeout(() => {
+        document.getElementById('q2').style.opacity = 1;
+        // Boy comes shy
+        setTimeout(shyWalkInFinal, 2000);
+      }, 3000);
+    }, 1000);
+  }
+
+  function shyWalkInFinal() {
+    setWalking(true);
+    boy.style.transition = "all 6s linear";
+    boy.style.left = "46%";
+    setTimeout(() => {
+      setWalking(false);
+      // Sit on knees
+      boy.style.transition = "all 0.5s ease";
+      boy.style.height = "130px";
+      document.querySelectorAll('.boy-leg').forEach(l => l.style.height="20px");
+      
+      setTimeout(() => {
+        say("I miss u 🥺", 0);
+        document.getElementById('final-note').style.opacity = 1;
+      }, 1000);
+    }, 6200);
+  }
+
+  // Timer Update
+  const loveTime = new Date('2024-08-01');
+  setInterval(() => {
+    let diff = new Date() - loveTime;
+    let d = Math.floor(diff/86400000);
+    let h = Math.floor(diff/3600000)%24;
+    let m = Math.floor(diff/60000)%60;
+    let s = Math.floor(diff/1000)%60;
+    document.getElementById('timerVal').innerText = `${d}d ${h}h ${m}m ${s}s`;
+  }, 1000);
+
+  function spawnFeedback(e) {
+    let h = document.createElement('div');
+    h.innerText = "💛"; h.style.position = 'fixed';
+    h.style.left = e.clientX+'px'; h.style.top = e.clientY+'px';
+    h.style.fontSize = "24px";
+    h.animate([{transform:'scale(0.5)', opacity:1}, {transform:'translateY(-120px) scale(2)', opacity:0}], {duration:1000});
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), 1000);
+  }
+</script>
+</body>
+</html>
